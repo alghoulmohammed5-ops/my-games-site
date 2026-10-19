@@ -1,72 +1,121 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ألعاب زمان والذكريات</title>
-<style>
-body {
-font-family: Tahoma, sans-serif;
-background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-color: #ffffff;
-text-align: center;
-padding: 50px;
-margin: 0;
-}
-h1 {
-color: #ffd700;
-font-size: 2.5em;
-margin-bottom: 10px;
-}
-p {
-font-size: 1.2em;
-color: #cccccc;
-}
-.game-box {
-background: #3a3a55;
-padding: 30px;
-border-radius: 15px;
-display: inline-block;
-margin-top: 20px;
-box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-}
-button {
-background-color: #ff4757;
-color: white;
-border: none;
-padding: 12px 25px;
-font-size: 18px;
-border-radius: 8px;
-cursor: pointer;
-font-weight: bold;
-transition: 0.3s;
-}
-button:hover {
-background-color: #ff6b81;
-}
-#score {
-font-size: 24px;
-color: #2ed573;
-margin-top: 15px;
-font-weight: bold;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ألعاب زمان والذكريات</title>
+    <style>
+        body {
+            font-family: Tahoma, sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+            color: #ffffff;
+            text-align: center;
+            padding: 30px;
+            margin: 0;
+        }
+        h1 {
+            color: #ffd700;
+            font-size: 2.2em;
+            margin-bottom: 5px;
+        }
+        p {
+            font-size: 1.1em;
+            color: #cccccc;
+        }
+        .game-box {
+            background: #3a3a55;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 15px;
+            width: 280px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            vertical-align: top;
+        }
+        button {
+            background-color: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #ff6b81;
+        }
+        #score, #maze-status {
+            font-size: 20px;
+            color: #2ed573;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        .maze-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 50px);
+            gap: 5px;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .cell {
+            width: 50px;
+            height: 50px;
+            background: #4b4b6b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .cell.path {
+            background: #2ed573;
+        }
+    </style>
 </head>
 <body>
-<h1>🎮 أهلاً بكم في عالم الذكريات والألعاب</h1>
-<p>ستجدون في صفحتي كل ما هو قديم وجميل..</p>
-<div class="game-box">
-<h3>لعبة التحدي السريع</h3>
-<p>اضغط على الزر بأسرع ما يمكنك لجمع النقاط!</p>
-<button onclick="increaseScore()">اضغط هنا للعب! 🚀</button>
-<div id="score">النقاط: 0</div>
-</div>
-<script>
-let score = 0;
-function increaseScore() {
-score++;
-document.getElementById("score").innerText = "النقاط: " + score;
-}
-</script>
+
+    <h1>🎮 أهلاً بكم في عالم الألعاب والذكريات</h1>
+    <p>استمتع بألعبنا الخفيفة وتحدى أصدقاءك!</p>
+
+    <!-- اللعبة الأولى: التحدي السريع -->
+    <div class="game-box">
+        <h3>⚡ التحدي السريع</h3>
+        <p>اضغط بأسرع ما يمكنك لجمع النقاط!</p>
+        <button onclick="increaseScore()">اضغط للعب!</button>
+        <div id="score">النقاط: 0</div>
+    </div>
+
+    <!-- اللعبة الثانية: لعبة المتاحة والذاكرة -->
+    <div class="game-box">
+        <h3>🧩 تحدي المتاهة الذكية</h3>
+        <p>اختر الطريق الصحيح لتصل للنهاية بدون خطأ!</p>
+        <button onclick="playMaze()">ابدأ المتاهة</button>
+        <div id="maze-status">اضغط للبدء</div>
+    </div>
+
+    <script>
+        let score = 0;
+        function increaseScore() {
+            score++;
+            document.getElementById("score").innerText = "النقاط: " + score;
+        }
+
+        function playMaze() {
+            let steps = Math.floor(Math.random() * 3) + 1;
+            if(steps === 2) {
+                document.getElementById("maze-status").innerText = "🎉 ممتاز! وجدت المخرج!";
+                document.getElementById("maze-status").style.color = "#2ed573";
+            } else {
+                document.getElementById("maze-status").innerText = "❌ مسار مسدود، حاول مجدداً!";
+                document.getElementById("maze-status").style.color = "#ff4757";
+            }
+        }
+    </script>
+
 </body>
 </html>
+
